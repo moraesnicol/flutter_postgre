@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:convert';
+
 import 'package:postgres/postgres.dart';
 
 void main(List<String> arguments) async {
@@ -49,7 +52,40 @@ void main(List<String> arguments) async {
   // await conn.query("UPDATE customers SET country='Ghana' WHERE id=1");
   //TODO  Delete data
 
-  await conn.query('DELETE FROM customers WHERE id > 0');
+  //await conn.query('DELETE FROM customers WHERE id > 0');
 
+//See db
+
+ /*  await conn.query('''
+    CREATE TABLE orders(
+      id serial primary key not null,
+      order_id int not null,
+      customer_id int not null,
+      oder_date date
+    )
+  '''); */
+
+ /*  await conn.transaction((ctx) async {
+    final mockStr = await File('./mock_customers.json').readAsString();
+    final mockData = json.decode(mockStr);
+    final mockDataStream = Stream.fromIterable(mockData);
+
+    await for (var row in mockDataStream) {
+      await ctx.query(''' 
+    INSERT INTO orders (order_id,customer_id,over_date)
+    VALUES (@orderId,@customerId,@orderDate)
+    ''', substitutionValues: {
+        'orderId': row['order_id'],
+        'customerId': row['customer_id'],
+        'orderDate': row['over_date'],
+      
+      });
+    }
+  }); */
+
+ /*  var resultMap = await conn.mappedResultsQuery('''
+    SELECT * FROM customers
+  ''');
+  print(resultMap); */
   await conn.close();
 }
